@@ -1,23 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Recipe from "./components/Recipe";
+import "bootstrap/dist/css/bootstrap.css";
+import Logo from "./components/img/hamburger.png";
 
 function App() {
+  const [item, setItem] = useState("");
+  const [datas, setDatas] = useState([]);
+  const api_id = "538c2271";
+  const api_key = "63d6d5f4df16439a61a5036a7353eee0";
+  const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${item}&app_id=${api_id}&app_key=${api_key}`;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    apiSearch();
+  };
+
+  const apiSearch = async () => {
+    const datas = await fetch(`${url}`);
+    let val = await datas.json();
+    setDatas(val.hits);
+    console.log(val.hits);
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='heading-container'>
+        <h2 className='mx-3'>Food Recipe App food</h2>
+        <div className="heading-img-container">
+          <img src={Logo} className="heading-logo img-fluid" />
+        </div>
+      </div>
+      <form className='search-form'onSubmit={(e) => handleSubmit(e)}>
+        <input
+          value={item}
+          onChange={(e) => setItem(e.target.value)}
+          type="text"
+          placeholder="enter your receipe"
+        />
+        <button type="submit" className='btn-search-form'><i class="btn-search fas fa-search"></i></button>
+      </form>
+      <main className="food-container container">
+        {datas.map((item) => {
+          return <Recipe item={item} />;
+        })}
+      </main>
     </div>
   );
 }
