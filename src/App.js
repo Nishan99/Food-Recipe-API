@@ -7,8 +7,8 @@ import Logo from "./components/img/hamburger.png";
 function App() {
   const [item, setItem] = useState("");
   const [datas, setDatas] = useState([]);
-  const api_id = "538c2271";
-  const api_key = "63d6d5f4df16439a61a5036a7353eee0";
+  const api_id = "cfe92bbc";
+  const api_key = "e6390857a82e08e5c2591b273ef5a4fd";
   const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${item}&app_id=${api_id}&app_key=${api_key}`;
 
   const handleSubmit = (e) => {
